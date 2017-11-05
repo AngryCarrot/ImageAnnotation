@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Validate</title>
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+
+<!--
+{% block navigation %}
+	{% include "navigation.html" %}
+{% endblock %}-->
+
+{% block content %}
+    <div class="main-page signup-page">
+        <h3 class="title1">评估</h3>
+        <p class="creating">该功能为模型评估。</p>
+        <div class="sign-up-row widget-shadow">
+            <h5>选择模型 :</h5>
+            <div class="sign-u">
+                <div class="sign-up1">
+                    <h4><label for="exampleInputEmail1"><strong style="color: red">*</strong> 选择模型 :</label></h4>
+                </div>
+
+                <div class="sign-up2">
+                    <select name="label-selector" id="exampleInputEmail1" class="form-control" style="margin-top: 1em">
+                        <option value="请选择类别">请选择模型</option>
+                        {% for item in Labels %}
+                            {#                            <option value="Default">Default: {{ item.label }}</option>#}
+                        {% endfor %}
+                        <option value="Default">默认模型</option>
+                        <option value="Model1">模型-1</option>
+                    </select>
+                </div>
+
+                <div class="clearfix"> </div>
+                <hr />
+                <button class="btn btn-primary" id="start-validate">开始评估</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <div class="main-page signup-page">
+        <h3 class="title1">评估结果 :</h3>
+        <div class="sign-up-row widget-shadow">
+            <div class="table-responsive bs-example widget-shadow">
+                <h4>指标:</h4>
+                <table class="table table-bordered"  id="val-index" style="text-align: center">
+                </table>
+            </div>
+            <div class="table-responsive bs-example widget-shadow">
+                <h4>具体信息:</h4>
+                <table class="table table-bordered"  id="val-confusion-matrix" style="text-align: center">
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#start-validate").click(function () {
+                console.log("Validate");
+                var params = {model: "default"};
+                params.index = "val-index";
+                params.confusion = "val-confusion-matrix";
+                startValidate("{% url 'process_validate' %}", params, "{{ csrf_token }}");
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% for item in data %}
+    {% if forloop.first %}
+        <thead>
+        <tr>
+            {% for title in item %}
+                <th style="text-align: center">{{ title }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+    {% else %}
+        <tbody>
+        {% for foo in item %}
+            {% if forloop.first %}
+                {% if not is_matrix and forloop.parentloop.last %}
+                    <th scope="row" style="text-align: center"><strong style="color: red">{{ foo }}</strong></th>
+                {% else %}
+                    <th scope="row" style="text-align: center">{{ foo }}</th>
+                {% endif %}
+            {% else %}
+                <td>
+                    {% if not is_matrix and forloop.parentloop.last %}
+                        <strong style="color: red">{{ foo }}</strong>
+                    {% elif is_matrix and forloop.counter != forloop.parentloop.counter and foo != 0 %}
+                        <strong style="color: red">{{ foo }}</strong>
+                    {% elif is_matrix and forloop.counter == forloop.parentloop.counter %}
+                        <strong style="color: blue">{{ foo }}</strong>
+                    {% else %}
+                        {{ foo }}
+                    {% endif %}
+                </td>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    {% endif %}
+{% endfor %}
+

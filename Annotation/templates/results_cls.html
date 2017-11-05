@@ -1,0 +1,32 @@
+{% for result in Results %}
+    <div class="col-md-6 panel-grids">
+        <div class=media">
+            <div class="media-left">
+                <a href="#">
+                    <img class="media-object" data-src="holder.js/64x64" src="{{ result.path }}"
+                         data-holder-rendered="true" style="width: 404px; height: 304px;">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">图片{{ result.name }}各个类别置信度</h4>
+                {% for label, prob in result.probs.items %}
+                    <div>
+                        <span class="badge badge-primary" style="width: 20%;">{{ prob }}%</span>
+                        <div class="progress" style="width: 55%;float: left;margin-right: 10px;">
+                            <div class="progress-bar progress-bar-primary" role="progressbar" style="width: {{ prob }}%"></div>
+                        </div>
+                        <span class="badge badge-info">{{ label }}</span>
+                    </div>
+                    <div class="clearfix"> </div>
+                {% endfor %}
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    {% if forloop.counter|divisibleby:2 %}
+        <div class="clearfix"> </div>
+        <br />
+    {% endif %}
+{% empty %}
+    空的
+{% endfor %}

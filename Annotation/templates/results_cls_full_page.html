@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Classify Results</title>
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+
+<!--
+{% block navigation %}
+	{% include "navigation.html" %}
+{% endblock %}-->
+
+{% block content %}
+    <div class="main-page signup-page">
+        <div class="media">
+            <h3 class="title1">标注结果</h3>
+            <div class="bs-example5 widget-shadow">
+{#                <div class="panel-info widget-shadow" style="height: 500px; overflow-y: scroll">#}
+            <div class="panel-info widget-shadow">
+                    {% for result in Results %}
+                        <div class="col-md-6 panel-grids">
+                            <div class=media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object" data-src="holder.js/64x64" src="{{ result.path }}"
+                                             data-holder-rendered="true" style="width: 404px; height: 304px;">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">图片{{ result.name }}各个类别置信度</h4>
+                                    {% for label, prob in result.probs.items %}
+                                        <div>
+                                            <span class="badge badge-primary">{{ prob }}%</span>
+                                            <div class="progress" style="width: 60%;float: left;margin-right: 10px;">
+                                                <div class="progress-bar progress-bar-primary" role="progressbar" style="width: {{ prob }}%"></div>
+                                            </div>
+                                            <span class="badge badge-info">{{ label }}</span>
+                                        </div>
+                                        <div class="clearfix"> </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="clearfix"> </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:2 %}
+                            <div class="clearfix"> </div>
+                            <br />
+                        {% endif %}
+                    {% empty %}
+                        空的
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--			<div class="main-page charts-page">
+                <div class="form-grids row widget-shadow" data-example-id="basic-forms">
+                    <div class="form-title">
+                        <h4>按类别分别上传 :</h4>
+                    </div>
+                    <div class="form-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">选择类别：</label>
+                                <select name="label-selector" id="exampleInputEmail1" class="form-control">
+                                    <option value="请选择类别">请选择类别</option>
+                                    {% for item in Labels %}
+                                        <option value="{{ item.label }}">{{ item.label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputFile">选择文件：</label>
+                                <input type="file" id="exampleInputFile" class="file" name="image_file" multiple data-overwrite-initial="false" data-min-file-count="1">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+			</div>-->
+    <script>
+    $(document).ready(function (){
+        $("#start-classify").click(function (event) {
+            startClassify("{% url 'process_classify' %}");
+        });
+    });
+    </script>
+{% endblock %}

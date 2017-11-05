@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Train</title>
+{% endblock %}
+
+{% block head %}
+    <!-- fileinput -->
+    <link href="/static/fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+    <script src="/static/fileinput/js/fileinput.js" type="text/javascript"></script>
+    <script src="/static/fileinput/js/zh.js" type="text/javascript"></script>
+    <script src="/static/js/jquery.form.js" type="text/javascript"></script>
+    <!-- //fileinput -->
+{% endblock %}
+
+
+<!--
+{% block navigation %}
+	{% include "navigation.html" %}
+{% endblock %}-->
+
+{% block content %}
+    <div class="main-page signup-page">
+        <h3 class="title1">训练</h3>
+        <p class="creating">该功能为模型训练，训练参数设置如下。</p>
+
+        <div class="sign-up-row widget-shadow">
+
+            <form class="form-horizontal" id="train-form" action="{% url 'process_train' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-horizontal">
+                    {% for field in  Form %}
+                        <div class="form-group">
+                            <label for="{{ field.auto_id }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                            <div class="col-sm-8">
+                                {{ field }}
+                            </div>
+                            <div class="col-sm-2">
+                                <p class="help-block">{{ field.help_text }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </form>
+            <button id="start-train" class="btn btn-primary">开始训练</button>
+            <div class="progress" id="progress-div" style="display: none;">
+                <div class="progress-bar progress-bar-info" id="progress-bar" style="width: 0"></div>
+            </div>
+
+            <!--<form class="form-horizontal" action="{% url 'process_train' %}" method="POST">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="id_epochs" class="col-sm-2 control-label">Epochs</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control1" id="id_epochs" name="epochs" placeholder="训练轮数">
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">如：1500</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBatchSize" class="col-sm-2 control-label">Batch Size</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control1" id="inputBatchSize" placeholder="每批次训练图像数量，不宜过大">
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">如：32</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputTrainingRate" class="col-sm-2 control-label">Training Rate</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control1" id="inputTrainingRate" placeholder="学习率">
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">如：0.001</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDecayRate" class="col-sm-2 control-label">Decay Step</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control1" id="inputDecayRate" placeholder="学习率衰减时间，每5000步衰减一次">
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">如：5000</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputDecayRate" class="col-sm-2 control-label">Decay Rate</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control1" id="inputDecayRate" placeholder="学习率衰减大小，衰减为上一步的0.9倍">
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">如：0.9</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="selector1" class="col-sm-2 control-label">Feature Layer</label>
+                        <div class="col-sm-8">
+                            <select name="selector1" id="selector1" class="form-control1">
+                                <option>pool5</option>
+                                <option selected="selected">fc6</option>
+                                <option>fc7</option>
+                                <option>fc8</option>
+                                <option>prob</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputBottleNodes" class="col-sm-2 control-label">Bottle Nodes</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control1" id="inputBottleNodes" placeholder="自编码器编码层维度">
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">如：1000</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputParamInitializer" class="col-sm-2 control-label">Parameter Initializer</label>
+                        <div class="col-sm-8">
+                            <select name="inputParamInitializer" id="inputParamInitializer" class="form-control1">
+                                <option>Random Normal Distribution</option>
+                                <option selected="selected">Xarvier</option>
+                                <option>Uniform Distribution</option>
+                                <option>Zeros</option>
+                                <option>Ones</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">权重初始化方式</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputOptimizer" class="col-sm-2 control-label">Optimizer</label>
+                        <div class="col-sm-8">
+                            <select name="inputOptimizer" id="inputOptimizer" class="form-control1">
+                                <option>GradientDescentOptimizer</option>
+                                <option selected="selected">RMSPropOptimizer</option>
+                                <option>AdamOptimizer</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">参数求解算法</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputClassifier" class="col-sm-2 control-label">Classifier</label>
+                        <div class="col-sm-8">
+                            <select name="inputClassifier" id="inputClassifier" class="form-control1">
+                                <option>SVM</option>
+                                <option selected="selected">LogisticRegression</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">分类器类型</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPenalty" class="col-sm-2 control-label">Penalty</label>
+                        <div class="col-sm-8">
+                            <select name="inputPenalty" id="inputPenalty" class="form-control1">
+                                <option>L1</option>
+                                <option>L2</option>
+                                <option selected="selected">ElasticNet</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">分类器正则化项</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPenaltyParam" class="col-sm-2 control-label">Penalty Parameter</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control1" id="inputPenaltyParam" placeholder="正则化参数，数值越小，惩罚力度越大。">
+                        </div>
+                        <div class="col-sm-2">
+                            <p class="help-block">如：0.01</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-default" id="start-train">开始训练</button>
+                    <div class="progress" id="progress-div">
+						<div class="progress-bar progress-bar-info" id="progress-bar" style="width: 0"></div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+
+    <script>
+        $("#start-train").click(function (event) {
+            console.log(event);
+            $("#progress-div").show();
+            progressBarGo();
+            $("#train-form").ajaxSubmit(function(message) {
+                // 对于表单提交成功后处理，message为提交页面operation.htm的返回内容
+                console.log(message);
+            });
+        });
+        function progressBarGo() {
+            var len = 0;
+            // 200ms走一个单位看上去匀速
+            setTimeout(function () {
+                var div = $("#progress-bar");
+                len = len + 100;
+                //console.log(len);
+                div.width(len + "%");
+                if (len < 100) {
+                    setTimeout(arguments.callee, 200);
+                }
+            }, 200);
+        }
+    </script>
+
+{% endblock %}
