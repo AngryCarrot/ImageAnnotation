@@ -63,7 +63,7 @@ def classify_result(request):
 
 def train(request):
     form = TrainForm()
-    return render(request, "train.html", {"Labels": get_all_labels(), "Form": form})
+    return render(request, "train.html", {"Labels": get_all_labels(), "form": form})
 
 
 def validate(request):
@@ -263,6 +263,7 @@ def process_classify_1_by_1(request):
 
 def process_train(request):
     print(request.POST)
+    response = {"status": 0}
     form = TrainForm(request.POST)
     if form.is_valid():
         epochs = form.cleaned_data['epochs']
@@ -290,8 +291,8 @@ def process_train(request):
         print("penalty: {}".format(penalty))
         print("penalty_param: {}".format(penalty_param))
     else:
+        response["status"] = -1
         print("not valid")
-    response = {"status": 0}
     # time.sleep(10)
     return JsonResponse(response)
 
