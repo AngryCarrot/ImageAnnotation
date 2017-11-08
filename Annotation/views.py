@@ -12,6 +12,7 @@ import time
 import numpy as np
 
 from .forms import TrainForm
+from .forms import SearchForm
 from .utils import get_all_labels
 from .utils import write2disk
 from .utils import get_all_images
@@ -21,116 +22,127 @@ from .utils import resolve_report
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html', {"Labels": get_all_labels()})
+    return render(request, 'index.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def gallery(request, label):
     file_list = os.listdir(osp.join(osp.join(settings.BASE_DIR, "ImagesDB"), label))
     file_list = list(map(lambda item: r"/static/" + label + r"/" + item, file_list))
-    return render(request, 'gallery.html', {"File": file_list, "Labels": get_all_labels()})
+    return render(request, 'gallery.html', {"File": file_list, "Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def gallery2(request):
-    return render(request, 'index.html', {"File": get_all_labels()})
+    return render(request, 'index.html', {"File": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def slider(request):
     files = get_all_images()
     # print(files.shape)
-    return render(request, 'slider.html', {"Labels": get_all_labels(), "File": files})
+    return render(request, 'slider.html', {"Labels": get_all_labels(), "File": files, "SearchForm": SearchForm()})
 
 
 def overview(request):
-    return render(request, 'overview.html', {"Labels": get_all_labels()})
+    return render(request, 'overview.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def upload(request, is_single):
     if is_single == "single":
-        return render(request, 'upload_s.html', {"Labels": get_all_labels()})
+        return render(request, 'upload_s.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
     else:
-        return render(request, 'upload_m.html', {"Labels": get_all_labels()})
+        return render(request, 'upload_m.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def classify(request):
-    return render(request, "classify.html", {"Labels": get_all_labels()})
+    return render(request, "classify.html", {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def classify_result(request):
-    return render(request, "classify.html", {"Labels": get_all_labels()})
+    return render(request, "classify.html", {"Labels": get_all_labels(), "SearchForm": SearchForm()})
     # result = process_classify()
     # return render(request, "results_cls.html", {"Labels": get_all_labels(), "Results": result})
 
 
 def train(request):
     form = TrainForm()
-    return render(request, "train.html", {"Labels": get_all_labels(), "form": form})
+    return render(request, "train.html", {"Labels": get_all_labels(), "form": form, "SearchForm": SearchForm()})
 
 
 def validate(request):
-    return render(request, "validate.html", {"Labels": get_all_labels()})
+    return render(request, "validate.html", {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def dashboard(request):
-    return render(request, 'dashboard.html', {"Labels": get_all_labels()})
+    return render(request, 'dashboard.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def grids(request):
-    return render(request, 'grids.html', {"Labels": get_all_labels()})
+    return render(request, 'grids.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def media(request):
-    return render(request, 'media.html', {"Labels": get_all_labels()})
+    return render(request, 'media.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def general(request):
-    return render(request, 'general.html', {"Labels": get_all_labels()})
+    return render(request, 'general.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def typography(request):
-    return render(request, 'typography.html', {"Labels": get_all_labels()})
+    return render(request, 'typography.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def widgets(request):
-    return render(request, 'widgets.html', {"Labels": get_all_labels()})
+    return render(request, 'widgets.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def inbox(request):
-    return render(request, 'inbox.html', {"Labels": get_all_labels()})
+    return render(request, 'inbox.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def compose(request):
-    return render(request, 'compose.html', {"Labels": get_all_labels()})
+    return render(request, 'compose.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def tables(request):
-    return render(request, 'tables.html', {"Labels": get_all_labels()})
+    return render(request, 'tables.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def forms(request):
-    return render(request, 'forms.html', {"Labels": get_all_labels()})
+    return render(request, 'forms.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def validation(request):
-    return render(request, 'validation.html', {"Labels": get_all_labels()})
+    return render(request, 'validation.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def login(request):
-    return render(request, 'login.html', {"Labels": get_all_labels()})
+    return render(request, 'login.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def signup(request):
-    return render(request, 'signup.html', {"Labels": get_all_labels()})
+    return render(request, 'signup.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def blank_page(request):
-    return render(request, 'blank-page.html', {"Labels": get_all_labels()})
+    return render(request, 'blank-page.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 def charts(request):
-    return render(request, 'charts.html', {"Labels": get_all_labels()})
+    return render(request, 'charts.html', {"Labels": get_all_labels(), "SearchForm": SearchForm()})
 
 
 # 系统处理逻辑
+def search(request):
+    response = {"status": 0}
+    print(request.POST)
+    form = SearchForm(request.POST)
+    if form.is_valid():
+        response["label"] = request.POST["keyword"]
+    else:
+        response["status"] = -1
+    return JsonResponse(response)
+
+
 def update_image_label(request):
     """
     更新图片类别
@@ -314,51 +326,75 @@ def process_validate(request):
 
 avg / total       0.97      0.97      0.97       899
 
-Confusion confusion:
-[[87  0  0  0  1  0  0  0  0  0]
- [ 0 88  1  0  0  0  0  0  1  1]
- [ 0  0 85  1  0  0  0  0  0  0]
- [ 0  0  0 79  0  3  0  4  5  0]
- [ 0  0  0  0 88  0  0  0  0  4]
- [ 0  0  0  0  0 88  1  0  0  2]
- [ 0  1  0  0  0  0 90  0  0  0]
- [ 0  0  0  0  0  1  0 88  0  0]
- [ 0  0  0  0  0  0  0  0 88  0]
- [ 0  0  0  1  0  1  0  0  0 90]]
+    Confusion confusion:
+    [[87  0  0  0  1  0  0  0  0  0]
+    [ 0 88  1  0  0  0  0  0  1  1]
+    [ 0  0 85  1  0  0  0  0  0  0]
+    [ 0  0  0 79  0  3  0  4  5  0]
+    [ 0  0  0  0 88  0  0  0  0  4]
+    [ 0  0  0  0  0 88  1  0  0  2]
+    [ 0  1  0  0  0  0 90  0  0  0]
+    [ 0  0  0  0  0  1  0 88  0  0]
+    [ 0  0  0  0  0  0  0  0 88  0]
+    [ 0  0  0  1  0  1  0  0  0 90]]
     :param request:
     :return:
     """
-    response = {"status": 0}
+    response = {"status": 0, "details": ""}
+
+    from sklearn.metrics import classification_report
+    from sklearn.metrics import confusion_matrix
+    paths = [r"ImagesDB/战斗机/zhandouji_1.jpg", r"ImagesDB/雷达/leida_1.jpg",
+             r"ImagesDB/战斗机/zhandouji_11.jpg", r"ImagesDB/战斗机/zhandouji_21.jpg",
+             r"ImagesDB/雷达/leida_4.jpg", r"ImagesDB/潜艇/qianshuiting_1.jpg"]
+    labels = ["雷达", "潜艇", "战斗机"]  # [item["label"] for item in get_all_labels()]
+    y_true = [2, 0, 2, 2, 0, 1]
+    y_pred = [0, 1, 2, 2, 0, 2]
+    report_str = classification_report(y_true=y_true, y_pred=y_pred, target_names=labels)
+    print(report_str)
+    matrix = confusion_matrix(y_true=y_true, y_pred=y_pred)
+    for idx, item in enumerate(y_true):
+        if item == y_pred[idx]:
+            pass
+        else:
+            print("path: {}, y_true: {}, y_pred: {}".format(paths[idx], labels[item], labels[y_pred[idx]]))
+            details = render_to_string("cls_errors.html",
+                                       {"name": "/".join(paths[idx].split("/")[1:]),
+                                        "path": "/static/" + "/".join(paths[idx].split("/")[1:]),
+                                        "y_true": labels[item],
+                                        "y_pred": labels[y_pred[idx]]})
+            response["details"] += details
+
     report_str = '             precision    recall  f1-score   support\n\n          0       1.00      0.99      0.99        88\n          1       0.99      0.97      0.98        91\n          2       0.99      0.99      0.99        86\n          3       0.98      0.87      0.92        91\n          4       0.99      0.96      0.97        92\n          5       0.95      0.97      0.96        91\n          6       0.99      0.99      0.99        91\n          7       0.96      0.99      0.97        89\n          8       0.94      1.00      0.97        88\n          9       0.93      0.98      0.95        92\n\navg / total       0.97      0.97      0.97       899\n'
     report_matrix = [['', 'precision', 'recall', 'f1-score', 'support'],
-              ['0', '1.00', '0.99', '0.99', '88'],
-              ['1', '0.99', '0.97', '0.98', '91'],
-              ['2', '0.99', '0.99', '0.99', '86'],
-              ['3', '0.98', '0.87', '0.92', '91'],
-              ['4', '0.99', '0.96', '0.97', '92'],
-              ['5', '0.95', '0.97', '0.96', '91'],
-              ['6', '0.99', '0.99', '0.99', '91'],
-              ['7', '0.96', '0.99', '0.97', '89'],
-              ['8', '0.94', '1.00', '0.97', '88'],
-              ['9', '0.93', '0.98', '0.95', '92'],
-              ['total', '0.97', '0.97', '0.97', '899']]
+                     ['0', '1.00', '0.99', '0.99', '88'],
+                     ['1', '0.99', '0.97', '0.98', '91'],
+                     ['2', '0.99', '0.99', '0.99', '86'],
+                     ['3', '0.98', '0.87', '0.92', '91'],
+                     ['4', '0.99', '0.96', '0.97', '92'],
+                     ['5', '0.95', '0.97', '0.96', '91'],
+                     ['6', '0.99', '0.99', '0.99', '91'],
+                     ['7', '0.96', '0.99', '0.97', '89'],
+                     ['8', '0.94', '1.00', '0.97', '88'],
+                     ['9', '0.93', '0.98', '0.95', '92'],
+                     ['total', '0.97', '0.97', '0.97', '899']]
     report = resolve_report(report_str)
 
-    matrix = [[87,  0,  0,  0,  1,  0,  0,  0,  0,  0],
-              [ 0, 88,  1,  0,  0,  0,  0,  0,  1,  1],
-              [ 0,  0, 85,  1,  0,  0,  0,  0,  0,  0],
-              [ 0,  0,  0, 79,  0,  3,  0,  4,  5,  0],
-              [ 0,  0,  0,  0, 88,  0,  0,  0,  0,  4],
-              [ 0,  0,  0,  0,  0, 88,  1,  0,  0,  2],
-              [ 0,  1,  0,  0,  0,  0, 90,  0,  0,  0],
-              [ 0,  0,  0,  0,  0,  1,  0, 88,  0,  0],
-              [ 0,  0,  0,  0,  0,  0,  0,  0, 88,  0],
-              [ 0,  0,  0,  1,  0,  1,  0,  0,  0, 90]]
+    matrix = [[87, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+              [0, 88, 1, 0, 0, 0, 0, 0, 1, 1],
+              [0, 0, 85, 1, 0, 0, 0, 0, 0, 0],
+              [0, 0, 0, 79, 0, 3, 0, 4, 5, 0],
+              [0, 0, 0, 0, 88, 0, 0, 0, 0, 4],
+              [0, 0, 0, 0, 0, 88, 1, 0, 0, 2],
+              [0, 1, 0, 0, 0, 0, 90, 0, 0, 0],
+              [0, 0, 0, 0, 0, 1, 0, 88, 0, 0],
+              [0, 0, 0, 0, 0, 0, 0, 0, 88, 0],
+              [0, 0, 0, 1, 0, 1, 0, 0, 0, 90]]
     labels = [item["label"] for item in get_all_labels()]
     labels.insert(0, "")
     matrix.insert(0, labels)
     for idx, item in enumerate(matrix[1:]):
-        item.insert(0, labels[idx+1])
+        item.insert(0, labels[idx + 1])
 
     idx = render_to_string("results_val.html", {"data": report, "is_matrix": False})
     confusion = render_to_string("results_val.html", {"data": matrix, "is_matrix": True})

@@ -104,7 +104,7 @@
             $.ajax({
                 type: "POST",
                 url: "{% url 'process_train' %}",
-                data : $("#submitForm").serialize(),
+                data: $("#submitForm").serialize(),
                 success: function(msg) {
                     if (msg.status == 0) {
                         $("#train-progress-bar").show();

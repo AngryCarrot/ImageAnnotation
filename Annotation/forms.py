@@ -1,5 +1,7 @@
 from django import forms
 
+from .utils import get_all_labels
+
 
 class TrainForm(forms.Form):
     epochs = forms.IntegerField(label="Epochs",
@@ -56,7 +58,9 @@ class TrainForm(forms.Form):
                                           widget=forms.Select(attrs={"class": "form-control1",
                                                                      "placeholder": ""
                                                                      }),
-                                          choices=(("Random Normal Distribution", "Random Normal Distribution"), ("Xarvier", "Xarvier"), ("Uniform Distribution", "Uniform Distribution"), ("Zeros", "Zeros"),
+                                          choices=(("Random Normal Distribution", "Random Normal Distribution"),
+                                                   ("Xarvier", "Xarvier"),
+                                                   ("Uniform Distribution", "Uniform Distribution"), ("Zeros", "Zeros"),
                                                    ("Ones", "Ones")),
                                           help_text="权重初始化方式"
                                           )
@@ -65,7 +69,8 @@ class TrainForm(forms.Form):
                                                              "placeholder": ""
                                                              }),
                                   choices=(
-                                      ("GradientDescentOptimizer", "GradientDescentOptimizer"), ("RMSPropOptimizer", "RMSPropOptimizer"),
+                                      ("GradientDescentOptimizer", "GradientDescentOptimizer"),
+                                      ("RMSPropOptimizer", "RMSPropOptimizer"),
                                       ("AdamOptimizer", "AdamOptimizer")),
                                   help_text="参数求解算法"
                                   )
@@ -95,3 +100,17 @@ class TrainForm(forms.Form):
                                                                    }),
                                      help_text="如：0.01"
                                      )
+
+
+class SearchForm(forms.Form):
+    keyword = forms.CharField(widget=forms.TextInput(attrs={"class": "sb-search-input input__field--madoka",
+                                                            "type": "search",
+                                                            "placeholder": "按类别搜索..."}))
+
+    def clean(self):
+        cleaned_data = self.cleaned_data["keyword"]
+        kw = cleaned_data
+        labels = [item["label"] for item in get_all_labels()]
+        if kw not in labels:
+            raise forms.ValidationError("类别出错,不在系统数据集类中")
+        return kw

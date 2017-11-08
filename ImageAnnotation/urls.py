@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^classify/$', views.classify, name='classify'),
     url(r'^train/$', views.train, name='train'),
     url(r'^validate/$', views.validate, name='validate'),
+    url(r'^search/$', views.search, name='search'),
 
     # img process
     url(r'^update/label/$', views.update_image_label, name='update_label'),

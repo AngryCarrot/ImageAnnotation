@@ -38,8 +38,25 @@
                 <div class="clearfix"> </div>
                 <hr />
                 <button class="btn btn-primary" id="start-validate">开始评估</button>
+
             </div>
             <div class="clearfix"></div>
+        </div>
+
+        <!--错分样本展示-->
+        <div class="media" style="display: none;" id="val-results-panel">
+            <h3 class="title1">错分样本</h3>
+            <div class="bs-example5 widget-shadow">
+                <button type="button" class="btn btn-info" data-toggle="collapse"
+                        data-target="#val-details">错分样本展开</button>
+                <hr />
+                <div class="panel-info widget-shadow" id="val-results" style="max-height: 500px; overflow-y: auto">
+                    <div id="val-details" class="collapse in">
+                        <!--details-->
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -65,7 +82,10 @@
                 var params = {model: "default"};
                 params.index = "val-index";
                 params.confusion = "val-confusion-matrix";
+                params.details = "val-details";
+                params.panel = "val-results-panel";
                 startValidate("{% url 'process_validate' %}", params, "{{ csrf_token }}");
+                $("#val-results-panel").show();
             });
         });
     </script>

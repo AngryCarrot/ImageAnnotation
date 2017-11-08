@@ -46,7 +46,7 @@ def resolve_file_name(file_path):
 
 
 def resolve_report(report_string):
-    print(report_string)
+    # print(report_string)
     rows = report_string.split("\n")
     r = [re.split(r"\s+", rows[0], re.S)[-5:-1]]
     for row in rows[2:-3]:

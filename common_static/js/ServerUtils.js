@@ -121,6 +121,7 @@ function startValidate(url, params, token) {
             console.log(response);
             $("#" + params["index"]).html(response["index"]);
             $("#" + params["confusion"]).html(response["confusion"]);
+            $("#" + params["details"]).html(response["details"]);
         },
         error: function (error) {
             console.error(error);
