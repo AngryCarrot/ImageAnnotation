@@ -11,40 +11,12 @@
 {#<!--End DataTables-->#}
 {#{% endblock %}#}
 
-<!--
-{% block navigation %}
-	{% include "navigation.html" %}
-{% endblock %}-->
 
 {% block content %}
     <div class="main-page" style="text-align: center">
         <h3 class="title1">图片集</h3>
 {#        <p class="creating">该部分功能为实现上传单一类别的图片数据，在上传之前需要先选择相应类别然后完成上传。</p>#}
         <div class="well-lg">
-{#            <table id="example-gallery" class="display" cellspacing="0" width="100%">#}
-{#                <thead>#}
-{#                </thead>#}
-{#                <tfoot>#}
-{#                </tfoot>#}
-{#                <tbody>#}
-{#                    {% for item in File %}#}
-{#                        {% if forloop.first %}#}
-{#                            <tr>#}
-{#                        {% endif %}#}
-{#                        <td height="250px" width="300px">#}
-{#                            <div class="col-md-3 gallery-grid" style="margin-bottom: 10px;text-align: center;">#}
-{#                                <img class="example-image" src="{{ item }}" alt="" style="height: 204px;width: 305px;"/></a>#}
-{#                                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ImgDetailsModal" data-description="{{ item }}">操作{{ forloop.counter0 }}</button>#}
-{#                            </div>#}
-{#                        </td>#}
-{#                        {% if forloop.counter|divisibleby:4 %}#}
-{#                            {% if not forloop.first %}#}
-{#                                </tr>#}
-{#                            {% endif %}#}
-{#                        {% endif %}#}
-{#                    {% endfor %}#}
-{#                </tbody>#}
-{#            </table>#}
         </div>
         <div class="clearfix"> </div>
         <br />
@@ -67,20 +39,11 @@
 						<h4 class="modal-title" id="ImgDetailsModalLabel">Modal title</h4>
 					</div>
 					<div class="modal-body">						
-						<div class="row"> 
-							<!--<div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>-->
+						<div class="row">
                             <img src="" alt="" class="img-lg" style="width: 100%; height: 400px">
 						</div> 
-						<!--<div class="row">
-							<div class="col-sm-9"> Level 1: .col-sm-9
-						        <div class="row">
-                                    <div class="col-xs-8 col-sm-6"> Level 2: .col-xs-8 .col-sm-6 </div> 
-						            <div class="col-xs-4 col-sm-6"> Level 2: .col-xs-4 .col-sm-6 </div> 
-                                </div> 
-                            </div> 
-                        </div>-->
-                        <div class="row"> 
-							<!--<div class="col-md-4">.col-md-4</div>-->
+
+                        <div class="row">
                             <div class="col-md-4">
                                 <div class="checkbox-inline">
                                     <label><input type="checkbox" id="need-update"> 是否需要更改类别</label>
@@ -93,8 +56,6 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                                
-							<!--<div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div> -->
 						</div>
                     </div>
                     <div class="modal-footer">
@@ -108,11 +69,14 @@
 	</div>
     <script>        
         $(function(){
+            // 图片URL
             function getImgURL(staticURL)
             {
                 var url = staticURL.split("/");
                 return url[url.length - 2] + "/" + url[url.length - 1];
             }
+
+            // 显示图片详情对话框
             $("#ImgDetailsModal").on("show.bs.modal", function(event){
                 var button = $(event.relatedTarget);
                 var description = button.data()["description"];
@@ -130,6 +94,8 @@
                     $("#need-update").click();
                 }
             });
+
+            // 更新类别事件绑定
             $(".btn-update-label").click(function(){
                 var newLabel = $("#label-selector").val();
                 var oldLabel = $.trim($("#ImgDetailsModalLabel").html().split(":")[1]).split("/")[0];
@@ -140,6 +106,8 @@
                 }
                 updateImageLabel($.trim($("#ImgDetailsModalLabel").html().split(":")[1]), newLabel, "{{ csrf_token }}");
             });
+
+            // 更新按钮是否可用
             $("#need-update").change(function(){
                 var btn = $(".btn-update-label");
                 console.log(btn.attr("disabled"));
@@ -154,7 +122,11 @@
                     $("#label-selector").removeAttr("disabled");
                 }
             });
+
+            // 删除图片
             $(".btn-delete-image").click(function () {
+
+                // 对话框插件bootbox
                 bootbox.confirm({
                     title: "警告",
                     message: "确定删除？该操作不可恢复！！",

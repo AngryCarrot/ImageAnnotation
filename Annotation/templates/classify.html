@@ -13,10 +13,6 @@
 {% endblock %}
 
 
-<!--
-{% block navigation %}
-	{% include "navigation.html" %}
-{% endblock %}-->
 
 {% block content %}
     <div class="main-page signup-page">
@@ -28,17 +24,10 @@
                 <input type="file" id="exampleInputFile" class="file" name="image" multiple data-overwrite-initial="false" data-min-file-count="1">
                 <div class="clearfix"> </div>
             </div>
-{#            <button type="submit" class="btn btn-primary" id="start-classify">开始标注</button>#}
             <button type="submit" class="btn btn-primary" id="start-classify-v2">开始标注</button>
         </div>
         <div class="media" style="display: ;" id="classify-results-panel">
             <h3 class="title1">标注结果</h3>
-{#            <div class="bs-example5 widget-shadow">#}
-{#                <div class="panel-info widget-shadow" id="classify-results" style="max-height: 600px; overflow-y: auto">#}
-                    {#                {% include "results_cls.html" %}#}
-{#                </div>#}
-{#            </div>#}
-{#            <hr />#}
             <div class="bs-example5 widget-shadow">
                 <div class="panel-info widget-shadow" id="classify-results-v2" style="max-height: 500px; overflow-y: auto">
                     {#                {% include "results_cls_v2.html" %}#}
@@ -51,6 +40,7 @@
 
     </div>
     <script>
+        // 文件上传插件初始化
         $("#exampleInputFile").fileinput({
             uploadUrl: "{% url 'upload_classify' %}",
             language: 'zh',
@@ -68,12 +58,10 @@
         }).on("fileuploaded", function(event, data, previewId, index) {
             console.log(data.response);
         });
+
+        // 页面加载完成后为相应按钮添加点击事件，否则可能导致无法响应
         $(document).ready(function () {
-            $("#start-classify").click(function (event) {
-                $("#classify-results-panel").show();
-                console.log(event);
-                startClassify("{% url 'process_classify' %}", "classify-results", "{{ csrf_token }}");
-            });
+            // 开始标注
             $("#start-classify-v2").click(function (event) {
                 images = ['tank_1.jpg', 'zhishengji_1.jpg', 'buqiang_1.jpg', 'shouqiang_1.jpg', 'shoulei_1.jpg', 'zhandouji_1.jpg', 'qianshuiting_1.jpg', 'daodan_1.jpg', 'shoulei_1.jpg', 'leida_1.jpg'];
                 images = [""]

@@ -53,6 +53,13 @@ function deleteImage(imagePath, token) {
     });
 }
 
+
+/**
+ * 标注第一版本，废弃
+ * @param url: host:port/classify/images
+ * @param containerID: container id to holds response html string
+ * @param token: certification
+ */
 function startClassify(url, containerID, token) {
     $.ajaxSetup({
         data: {csrfmiddlewaretoken: token }
@@ -70,6 +77,14 @@ function startClassify(url, containerID, token) {
     });
 }
 
+
+/**
+ * 标注第二版本
+ * @param url: host:port/classify/process/1_by_1
+ * @param image: image name
+ * @param containerID: container id to holds response html string
+ * @param token: certification
+ */
 function startClassify1By1(url, image, containerID, token) {
     console.log(image);
     $.ajaxSetup({
@@ -90,6 +105,12 @@ function startClassify1By1(url, image, containerID, token) {
 }
 
 
+/**
+ * 训练模型
+ * @param url: url to handle training process
+ * @param params: training parameters
+ * @param token: certification
+ */
 function trainModel(url, params, token) {
     $.ajaxSetup({
         data: {csrfmiddlewaretoken: token }
@@ -108,6 +129,13 @@ function trainModel(url, params, token) {
     });
 }
 
+
+/**
+ * 模型验证
+ * @param url: url to handle training process
+ * @param params: training parameters
+ * @param token: certification
+ */
 function startValidate(url, params, token) {
     $.ajaxSetup({
         data: {csrfmiddlewaretoken: token }

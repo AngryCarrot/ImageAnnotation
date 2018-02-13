@@ -14,11 +14,6 @@
 {% endblock %}
 
 
-<!--
-{% block navigation %}
-	{% include "navigation.html" %}
-{% endblock %}-->
-
 {% block content %}
     <div class="main-page signup-page">
         <h3 class="title1">训练</h3>
@@ -58,7 +53,7 @@
     </div>
 
     <script>
-
+        // 进度条
         function progressGO() {
             var i = 0;
             setTimeout(function () {
@@ -100,6 +95,7 @@
             }, 0.1);
         }
 
+        // 提交训练
         function Operate() {
             $.ajax({
                 type: "POST",
@@ -120,28 +116,7 @@
             });
             return false; // 必须返回false，否则表单会自己再做一次提交操作，并且页面跳转
         }
-{#        $("#start-train").click(function (event) {#}
-{#            console.log(event);#}
-{#            $("#progress-div").show();#}
-{#            progressBarGo();#}
-{#            $("#train-form").ajaxSubmit(function(message) {#}
-{#                // 对于表单提交成功后处理，message为提交页面operation.htm的返回内容#}
-{#                console.log(message);#}
-{#            });#}
-{#        });#}
-{#        function progressBarGo() {#}
-{#            var len = 0;#}
-{#            // 200ms走一个单位看上去匀速#}
-{#            setTimeout(function () {#}
-{#                var div = $("#progress-bar");#}
-{#                len = len + 100;#}
-{#                //console.log(len);#}
-{#                div.width(len + "%");#}
-{#                if (len < 100) {#}
-{#                    setTimeout(arguments.callee, 200);#}
-{#                }#}
-{#            }, 200);#}
-{#        }#}
+
     </script>
 
 {% endblock %}

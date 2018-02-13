@@ -1,9 +1,13 @@
+# coding=utf-8
 from django import forms
 
 from .utils import get_all_labels
 
 
 class TrainForm(forms.Form):
+    """
+    训练参数
+    """
     epochs = forms.IntegerField(label="Epochs",
                                 initial=1000,
                                 widget=forms.TextInput(attrs={"class": "form-control1",
@@ -103,6 +107,9 @@ class TrainForm(forms.Form):
 
 
 class SearchForm(forms.Form):
+    """
+    搜索框，废弃
+    """
     keyword = forms.CharField(widget=forms.TextInput(attrs={"class": "sb-search-input input__field--madoka",
                                                             "type": "search",
                                                             "placeholder": "按类别搜索..."}))

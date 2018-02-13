@@ -13,11 +13,6 @@
 {% endblock %}
 
 
-<!--
-{% block navigation %}
-	{% include "navigation.html" %}
-{% endblock %}-->
-
 {% block content %}
             <div class="main-page signup-page">
 				<h3 class="title1">按类别分别上传</h3>
@@ -39,20 +34,7 @@
 						<div class="clearfix"> </div>
 					</div>
 
-					<div class="sign-u">
-						<div class="sign-up1">
-                            <h4><label><strong style="color: red">*</strong> 类别 :</label></h4>
-						</div>
-						<div class="sign-up2">
-                            {% for item in Labels %}
-							<label>
-								<input type="radio" name="label" required>
-								{{ item.label }}
-							</label>
-                            {% endfor %}
-						</div>
-						<div class="clearfix"> </div>
-					</div>
+					
 					<h6>选择文件 :</h6>
 					<div class="sign-u">
                         <input type="file" id="exampleInputFile" class="file" name="image_file" multiple data-overwrite-initial="false" data-min-file-count="1">
@@ -60,30 +42,6 @@
 					</div>
 				</div>
 			</div>
-{#			<div class="main-page charts-page">#}
-{#                <div class="form-grids row widget-shadow" data-example-id="basic-forms">#}
-{#                    <div class="form-title">#}
-{#                        <h4>按类别分别上传 :</h4>#}
-{#                    </div>#}
-{#                    <div class="form-body">#}
-{#                        <form>#}
-{#                            <div class="form-group">#}
-{#                                <label for="exampleInputEmail1">选择类别：</label>#}
-{#                                <select name="label-selector" id="exampleInputEmail1" class="form-control">#}
-{#                                    <option value="请选择类别">请选择类别</option>#}
-{#                                    {% for item in Labels %}#}
-{#                                        <option value="{{ item.label }}">{{ item.label }}</option>#}
-{#                                    {% endfor %}#}
-{#                                </select>#}
-{#                            </div>#}
-{#                            <div class="form-group">#}
-{#                                <label for="exampleInputFile">选择文件：</label>#}
-{#                                <input type="file" id="exampleInputFile" class="file" name="image_file" multiple data-overwrite-initial="false" data-min-file-count="1">#}
-{#                            </div>#}
-{#                        </form>#}
-{#                    </div>#}
-{#                </div>#}
-{#			</div>#}
     <script>
         $("#exampleInputFile").fileinput({
             uploadUrl: "{% url 'upload_single' %}",
